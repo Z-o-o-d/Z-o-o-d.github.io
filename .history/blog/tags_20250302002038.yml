@@ -24,6 +24,6 @@ Yanex:
   description: 研究生考试
 
 STM32:
-  label: STM32
+  label: STM32相关
   permalink: /STM32
-  description: STM32
+  description: STM32相关
