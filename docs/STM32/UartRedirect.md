@@ -56,6 +56,35 @@
 #endif
 ```
 
+打印编译器信息
+```
+// 编译器版本检测宏
+#if defined(__ARMCC_VERSION)
+    // Keil ARMCC（MDK-ARM）
+    #define PRINT_COMPILER() printf(COLOR_RESET "Keil ARMCC v%d\n" COLOR_RESET, __ARMCC_VERSION)
+#elif defined(__GNUC__)
+    // GCC系列编译器（GNU Arm Embedded、RISC-V GCC等）
+    #define PRINT_COMPILER() printf(COLOR_RESET "GCC %s\n" COLOR_RESET, __VERSION__)
+#elif defined(__ICCARM__)
+    // IAR EWARM
+    #define PRINT_COMPILER() printf(COLOR_RESET "IAR EWARM %d\n" COLOR_RESET, __ICCARM__)
+#elif defined(__CC_ARM)
+    // ARM Compiler 6 (Arm Development Studio)
+    #define PRINT_COMPILER() printf(COLOR_RESET "Arm Compiler %d\n" COLOR_RESET, __CC_ARM)
+#elif defined(__SDCC_VERSION__)
+    // SDCC (Small Device C Compiler)
+    #define PRINT_COMPILER() printf(COLOR_RESET "SDCC %s\n" COLOR_RESET, __SDCC_VERSION__)
+#else
+    // 未知编译器
+    #define PRINT_COMPILER() printf(COLOR_RESET "Unknow Compiler\n" COLOR_RESET)
+#endif
+```
+// 打印编译时间
+
+```
+#define PRINT_COMPILE_TIME()           printf("Compile Time: %s\n", __DATE__ " " __TIME__)
+```
+
 
 ## 效果演示
 VOFA
