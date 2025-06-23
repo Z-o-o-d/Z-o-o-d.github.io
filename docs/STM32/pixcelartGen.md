@@ -1,7 +1,6 @@
 # 串口打印像素画生成器
 
 ```
-
 from PIL import Image
 
 # ASCII characters from darkest to lightest
@@ -67,9 +66,10 @@ if __name__ == "__main__":
         return ascii_img
 
     def main_color():
-        path = "input.jpg"
+        path = "st.png"
         try:
             image = Image.open(path)
+            image = image.convert("RGB")  # Ensure image is in RGB mode for color processing
         except Exception as e:
             print(f"Unable to open image file {path}.")
             print(e)
@@ -113,9 +113,9 @@ if __name__ == "__main__":
             # scaled_ascii_img_256 = scaled_ascii_img_256.replace("\n", "\\n")
         with open("resize256color.c", "w") as f:
             f.write(scaled_ascii_img_256)
-
-     
+        
     if __name__ == "__main__":
         main_color()
-      
+        
+        
 ```
