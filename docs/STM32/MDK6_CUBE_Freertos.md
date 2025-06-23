@@ -1,4 +1,4 @@
-# MDK6_CUBE_Freertos
+# CUBEmx使用Freertos初始化MDK6代码
 
 
 
