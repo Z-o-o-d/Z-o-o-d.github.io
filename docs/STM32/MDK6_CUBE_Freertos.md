@@ -1,4 +1,4 @@
-# CUBEmx使用Freertos初始化MDK6代码
+# CubeMX使用Freertos初始化MDK6代码
 
 
 
@@ -12,6 +12,11 @@ C:\Users\Admin\STM32Cube\Repository\STM32Cube_FW_F1_V1.8.6\Middlewares\Third_Par
 ![alt text](image-5.png)
 
 将RVDS内所有文件复制，替换GCC所有文件。
+等效命令
+```
+PS C:\Users\Admin\STM32Cube\Repository\STM32Cube_FW_F1_V1.8.6\Middlewares\Third_Party\FreeRTOS\Source\portable> rm -r .\GCC\
+PS C:\Users\Admin\STM32Cube\Repository\STM32Cube_FW_F1_V1.8.6\Middlewares\Third_Party\FreeRTOS\Source\portable> cp -r .\RVDS\ .\GCC\
+```
 
 再次生成代码即可
 
