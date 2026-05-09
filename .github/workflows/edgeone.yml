@@ -1,0 +1,52 @@
+name: Deploy to Edgeone
+
+on:
+  push:
+    branches:
+      - main
+    # Review gh actions docs if you want to further define triggers, paths, etc
+    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
+
+jobs:
+  build:
+    name: Build Docusaurus
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 安装 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: 安装 pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+          standalone: true
+          
+      - name: 安装 edgeone CLI
+        run: npm install -g edgeone
+        
+      - name: Install dependencies
+        run: npm ci
+
+
+
+      
+      - name: Build website
+        run: npm run build
+
+      - name: 上传构建产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: astro-build-artifact
+          path: build
+
+
+      - name: 部署到 edgeone
+        env:
+          EDGEONE_API_TOKEN: ${{ secrets.EDGEONE_API_TOKEN }}
+        run: |
+          edgeone pages deploy ./dist -n project-name -t "$EDGEONE_API_TOKEN"
