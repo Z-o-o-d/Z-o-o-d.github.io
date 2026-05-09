@@ -1,52 +1,36 @@
-name: Deploy to Edgeone
+name: Deploy Docusaurus to Edgeone
 
 on:
   push:
-    branches:
-      - main
-    # Review gh actions docs if you want to further define triggers, paths, etc
-    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
-  build:
-    name: Build Docusaurus
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: 检出代码
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: 安装 Node.js
+      - name: 设置 Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: 20
+          cache: npm
 
-      - name: 安装 pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-          standalone: true
-          
-      - name: 安装 edgeone CLI
-        run: npm install -g edgeone
-        
-      - name: Install dependencies
+      - name: 安装项目依赖
         run: npm ci
 
-
-
-      
-      - name: Build website
+      - name: 构建 Docusaurus 静态文件
         run: npm run build
 
-      - name: 上传构建产物
-        uses: actions/upload-artifact@v4
-        with:
-          name: astro-build-artifact
-          path: build
+      - name: 安装 Edgeone CLI
+        run: npm install -g edgeone --unsafe-perm
 
-
-      - name: 部署到 edgeone
+      - name: 部署到 Edgeone
         env:
           EDGEONE_API_TOKEN: ${{ secrets.EDGEONE_API_TOKEN }}
         run: |
-          edgeone pages deploy ./dist -n project-name -t "$EDGEONE_API_TOKEN"
+          edgeone pages deploy ./build -n "zood-blog" -t "$EDGEONE_API_TOKEN"
